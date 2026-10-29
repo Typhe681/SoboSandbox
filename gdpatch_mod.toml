@@ -1,0 +1,8 @@
+id = "sobosandbox"
+
+[meta]
+name = "SoboSandbox"
+version = "1.0.0"
+authors = ["Typhe"] # A list of mod authors.
+description = "Unlocks gamemodes, and adds a sandbox gamemode that enables developer keybinds, prevents bumpers from triggering a game over, and blocks achievements/scores."
+website = "https://typhe.dev/projects/soboSandbox"
