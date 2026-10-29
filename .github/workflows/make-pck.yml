@@ -1,6 +1,8 @@
 name: make-pck
 on:
   push:
+    branches:
+      - main
     paths:
       - "pck_files/**"
   workflow_dispatch:
