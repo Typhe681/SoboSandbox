@@ -5,4 +5,4 @@ name = "SoboSandbox"
 version = "1.0.0"
 authors = ["Typhe"]
 description = "Unlocks gamemodes, and adds a sandbox gamemode that enables developer keybinds, prevents bumpers from triggering a game over, and blocks achievements/scores."
-website = "https://typhe.dev/projects/soboSandbox"
+website = "https://github.com/Typhe681/SoboSandbox"
