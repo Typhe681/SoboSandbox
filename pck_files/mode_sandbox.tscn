@@ -1,0 +1,612 @@
+[gd_scene format=3 uid="uid://c7g40ka17srnw"]
+
+[ext_resource type="Script" path="res://game_mode/mode_sandbox/mode_sandbox.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dg45y10u0lie1" path="res://game_elements/sobo/sobo.tscn" id="2"]
+[ext_resource type="Script" uid="uid://0pdwdxdcotuo" path="res://game_mode/mode_classic/mode_classic_side.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://bow44r1vvx5fl" path="res://game_elements/indicator/gauge.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://c7m0fqlimul4q" path="res://game_elements/ray_detector/ray_detector.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://remljg84i4ly" path="res://game_elements/collision_reenabler/collision_reenabler.tscn" id="6"]
+[ext_resource type="Script" uid="uid://bsaq27yg4jlt1" path="res://game_elements/portal_effect/portal_effect.gd" id="7"]
+[ext_resource type="PackedScene" uid="uid://b34tjrdadkopl" path="res://game_elements/danger_bumper/danger_bumper.tscn" id="8"]
+[ext_resource type="Script" uid="uid://dfhjbrd4s45vq" path="res://game_mode/mode_classic/danger_bumper_beam.gd" id="9"]
+[ext_resource type="PackedScene" uid="uid://7vpvdcrpjkww" path="res://game_elements/float_bar/float_bar.tscn" id="10"]
+[ext_resource type="Script" uid="uid://davxngnjsgshl" path="res://game_elements/launch_arrow.gd" id="11"]
+[ext_resource type="AudioStream" uid="uid://c3vswjrb7jbgv" path="res://audio/Minimalist7.ogg" id="12"]
+[ext_resource type="PackedScene" uid="uid://bv02mxiftka6b" path="res://game_elements/gravity/gravity_area.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://blcrcrdxpfbde" path="res://game_elements/spawn_pool/spawn_pool.tscn" id="14"]
+[ext_resource type="Script" uid="uid://cao00grb28s13" path="res://game_mode/mode_classic/active_sobo_markers.gd" id="15"]
+[ext_resource type="Script" uid="uid://me667wi70476" path="res://game_elements/sobo/sobo_outline/sobo_outline.gd" id="16"]
+[ext_resource type="Shape2D" uid="uid://bvevrct050nyp" path="res://game_elements/sobo/suba/suba_circle.tres" id="17"]
+[ext_resource type="PackedScene" uid="uid://ct1j6807mj30u" path="res://game_elements/structure/structure_inverted_poly.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://cgqwypa5osvfi" path="res://game_elements/clutterer/clutterer.tscn" id="19"]
+[ext_resource type="AudioStream" uid="uid://feolm7drf3vu" path="res://audio/potential_sounds/Retro5.mp3" id="20"]
+[ext_resource type="AudioStream" uid="uid://dlwt0lu81s17k" path="res://audio/538540__sjonas88__fail-sound.wav" id="21"]
+[ext_resource type="AudioStream" uid="uid://3tq5jlwbueqq" path="res://audio/sounds/merge_sounds/425209__velkstar__water_drop.wav" id="22"]
+[ext_resource type="AudioStream" uid="uid://cnowg56443xuq" path="res://audio/523754__lilmati__new-skill-02.wav" id="23"]
+[ext_resource type="Theme" uid="uid://br724suw7skep" path="res://ui/theme.tres" id="24"]
+[ext_resource type="Script" uid="uid://dyrret1ygogkc" path="res://ui/instructions.gd" id="25"]
+[ext_resource type="Texture2D" uid="uid://cb3xfjicohqq0" path="res://ui/input_prompts/playstation/playstation_dpad_horizontal.png" id="26"]
+[ext_resource type="Texture2D" uid="uid://dtd2g1ej6wbfm" path="res://ui/input_prompts/playstation/playstation_stick_l_horizontal.png" id="27"]
+[ext_resource type="Texture2D" uid="uid://cf14q8cdo8raq" path="res://ui/input_prompts/playstation/playstation_stick_r.png" id="28"]
+[ext_resource type="Texture2D" uid="uid://cdpa3xrsi2hp6" path="res://ui/input_prompts/playstation/playstation_trigger_r1.png" id="29"]
+[ext_resource type="Texture2D" uid="uid://dgali3g5q82yg" path="res://ui/input_prompts/xbox/xbox_dpad_horizontal.png" id="30"]
+[ext_resource type="Texture2D" uid="uid://cnu8gedv6etum" path="res://ui/input_prompts/xbox/xbox_stick_l_horizontal.png" id="31"]
+[ext_resource type="Texture2D" uid="uid://b7dyf1c0ibwpl" path="res://ui/input_prompts/xbox/xbox_stick_r.png" id="32"]
+[ext_resource type="Texture2D" uid="uid://bmbnwr3alt2g3" path="res://ui/input_prompts/xbox/xbox_rb.png" id="33"]
+[ext_resource type="Texture2D" uid="uid://dd6dh40r7tekr" path="res://ui/input_prompts/mouse/mouse_left.png" id="34"]
+[ext_resource type="Texture2D" uid="uid://gqmu0wkymlqj" path="res://ui/input_prompts/mouse/mouse_move.png" id="35"]
+[ext_resource type="Texture2D" uid="uid://c36gsyeu3xdxi" path="res://ui/input_prompts/mouse/mouse.png" id="36"]
+[ext_resource type="Texture2D" uid="uid://cg1v3jx5qkwa6" path="res://ui/input_prompts/mouse/mouse_right.png" id="37"]
+[ext_resource type="Texture2D" uid="uid://drw3oxufbgvm6" path="res://ui/input_prompts/controller_generic.png" id="38"]
+[ext_resource type="Script" uid="uid://cbm2jtvmxh4bu" path="res://ui/ui_symbol.gd" id="39"]
+[ext_resource type="Script" uid="uid://rqhexh067ubf" path="res://game_mode/mode_classic/mode_classic_layout.gd" id="40"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y20bu"]
+resource_local_to_scene = true
+size = Vector2(184, 592)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxd16"]
+resource_local_to_scene = true
+size = Vector2(152, 592)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8x20i"]
+
+[node name="ModeSandbox" type="Node2D" unique_id=239327445 node_paths=PackedStringArray("left", "right", "float_bar", "danger_bumper_beam", "pre_gameover_timer", "start_clutterer", "select_sfx", "cancel_sfx", "launch_sfx", "loss_of_control_sfx", "spawn_pool", "world_play_area", "instructions")]
+script = ExtResource("1")
+left = NodePath("Left")
+right = NodePath("Right")
+float_bar = NodePath("FloatBar")
+danger_bumper_beam = NodePath("DangerBumperBeam")
+pre_gameover_timer = NodePath("PreGameOverDelay")
+start_clutterer = NodePath("Clutterer")
+select_sfx = NodePath("SelectSFX")
+cancel_sfx = NodePath("CancelSFX")
+launch_sfx = NodePath("LaunchSFX")
+loss_of_control_sfx = NodePath("LossOfControlSFX")
+sobo_ps = ExtResource("2")
+spawn_pool = NodePath("SpawnPool")
+world_play_area = NodePath("WorldPlayArea")
+instructions = NodePath("Instructions")
+
+[node name="WorldPlayArea" type="ColorRect" parent="." unique_id=1383206379]
+visible = false
+z_index = 615
+custom_minimum_size = Vector2(656, 720)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -328.0
+offset_top = -360.0
+offset_right = 328.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.1607843, 1, 0.16587925, 0.40392157)
+
+[node name="Left" type="Node2D" parent="." unique_id=578559765 node_paths=PackedStringArray("ray_detector", "ray_gauge", "collision_reenabler", "portal_effect", "danger_bumper", "danger_gauge")]
+script = ExtResource("3")
+ray_detector = NodePath("RayDetector")
+ray_gauge = NodePath("RayGauge")
+collision_reenabler = NodePath("CollisionReenabler")
+portal_effect = NodePath("PortalEffect")
+danger_bumper = NodePath("DangerBumper")
+danger_gauge = NodePath("DangerGauge")
+
+[node name="RayGauge" parent="Left" unique_id=716602677 instance=ExtResource("4")]
+position = Vector2(-232, -332)
+collider_gap_push_dir = Vector2(0, -1)
+
+[node name="RayDetector" parent="Left" unique_id=1278971036 node_paths=PackedStringArray("gauge") instance=ExtResource("5")]
+position = Vector2(-360, -240)
+gauge = NodePath("../RayGauge")
+enable_debug_draw = false
+
+[node name="RayCast2D" parent="Left/RayDetector" index="0" unique_id=840939528]
+enabled = false
+target_position = Vector2(808, 0)
+
+[node name="DetectionMarker" parent="Left/RayDetector" index="2" unique_id=2039498320]
+position = Vector2(280, 0)
+
+[node name="CollisionReenabler" parent="Left" unique_id=407874622 instance=ExtResource("6")]
+position = Vector2(-360, -240)
+collision_mask = 32
+
+[node name="CollisionShape2D" parent="Left/CollisionReenabler" index="0" unique_id=1590860216]
+position = Vector2(-28, 232)
+shape = SubResource("RectangleShape2D_y20bu")
+
+[node name="PortalEffect" type="Line2D" parent="Left" unique_id=153729711 node_paths=PackedStringArray("raycast0", "raycast1")]
+z_index = 100
+position = Vector2(-296, -240)
+points = PackedVector2Array(0, -64, 0, 64)
+width = 8.0
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("7")
+raycast0 = NodePath("RayCast0")
+raycast1 = NodePath("RayCast1")
+metadata/_custom_type_script = "uid://bsaq27yg4jlt1"
+
+[node name="RayCast0" type="RayCast2D" parent="Left/PortalEffect" unique_id=1323542546]
+position = Vector2(0, -64)
+enabled = false
+target_position = Vector2(0, 128)
+collision_mask = 32
+hit_from_inside = true
+
+[node name="RayCast1" type="RayCast2D" parent="Left/PortalEffect" unique_id=1502797665]
+position = Vector2(0, 64)
+enabled = false
+target_position = Vector2(0, -128)
+collision_mask = 32
+hit_from_inside = true
+
+[node name="DangerBumper" parent="Left" unique_id=1622440692 node_paths=PackedStringArray("gauge") instance=ExtResource("8")]
+z_index = 0
+position = Vector2(-328, -112)
+gauge = NodePath("../DangerGauge")
+
+[node name="GrooveJoint2D" parent="Left/DangerBumper/RigidBody2D" parent_id_path=PackedInt32Array(1622440692, 1534873172) index="1" unique_id=598067615]
+z_index = 100
+rotation = 1.5707964
+node_b = NodePath("../../../../DangerBumperStaticBody")
+length = 32.0
+initial_offset = 32.0
+
+[node name="DangerBumperMarker" parent="Left/DangerBumper/RigidBody2D" parent_id_path=PackedInt32Array(1622440692, 1534873172) index="2" unique_id=316480536]
+color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+
+[node name="DangerGauge" parent="Left" unique_id=970790992 instance=ExtResource("4")]
+position = Vector2(-308, -112)
+rotation = 1.5707964
+alignment = 1
+collider_gap_push_dir = Vector2(-1, 0)
+
+[node name="Right" type="Node2D" parent="." unique_id=436913057 node_paths=PackedStringArray("ray_detector", "ray_gauge", "collision_reenabler", "portal_effect", "danger_bumper", "danger_gauge")]
+script = ExtResource("3")
+ray_detector = NodePath("RayDetector")
+ray_gauge = NodePath("RayGauge")
+collision_reenabler = NodePath("CollisionReenabler")
+portal_effect = NodePath("PortalEffect")
+danger_bumper = NodePath("DangerBumper")
+danger_gauge = NodePath("DangerGauge")
+
+[node name="RayGauge" parent="Right" unique_id=1583412225 instance=ExtResource("4")]
+position = Vector2(232, -332)
+alignment = 2
+collider_gap_push_dir = Vector2(0, -1)
+
+[node name="RayDetector" parent="Right" unique_id=334997788 node_paths=PackedStringArray("gauge") instance=ExtResource("5")]
+position = Vector2(360, -240)
+gauge = NodePath("../RayGauge")
+enable_debug_draw = false
+
+[node name="RayCast2D" parent="Right/RayDetector" index="0" unique_id=840939528]
+enabled = false
+target_position = Vector2(-808, 0)
+
+[node name="DetectionMarker" parent="Right/RayDetector" index="2" unique_id=2039498320]
+position = Vector2(-280, 0)
+
+[node name="CollisionReenabler" parent="Right" unique_id=2107209974 instance=ExtResource("6")]
+position = Vector2(360, -240)
+collision_mask = 32
+
+[node name="CollisionShape2D" parent="Right/CollisionReenabler" index="0" unique_id=1590860216]
+position = Vector2(12, 232)
+shape = SubResource("RectangleShape2D_yxd16")
+
+[node name="PortalEffect" type="Line2D" parent="Right" unique_id=955394860 node_paths=PackedStringArray("raycast0", "raycast1")]
+z_index = 100
+position = Vector2(296, -240)
+points = PackedVector2Array(0, -64, 0, 64)
+width = 8.0
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource("7")
+raycast0 = NodePath("RayCast0")
+raycast1 = NodePath("RayCast1")
+metadata/_custom_type_script = "uid://bsaq27yg4jlt1"
+
+[node name="RayCast0" type="RayCast2D" parent="Right/PortalEffect" unique_id=1206677689]
+position = Vector2(0, -64)
+enabled = false
+target_position = Vector2(0, 128)
+collision_mask = 32
+hit_from_inside = true
+
+[node name="RayCast1" type="RayCast2D" parent="Right/PortalEffect" unique_id=1306442759]
+position = Vector2(0, 64)
+enabled = false
+target_position = Vector2(0, -128)
+collision_mask = 32
+hit_from_inside = true
+
+[node name="DangerBumper" parent="Right" unique_id=1963314696 node_paths=PackedStringArray("gauge") instance=ExtResource("8")]
+z_index = 0
+position = Vector2(328, -112)
+gauge = NodePath("../DangerGauge")
+
+[node name="GrooveJoint2D" parent="Right/DangerBumper/RigidBody2D" parent_id_path=PackedInt32Array(1963314696, 1534873172) index="1" unique_id=598067615]
+z_index = 100
+node_b = NodePath("../../../../DangerBumperStaticBody")
+length = 32.0
+initial_offset = 32.0
+
+[node name="DangerBumperMarker" parent="Right/DangerBumper/RigidBody2D" parent_id_path=PackedInt32Array(1963314696, 1534873172) index="2" unique_id=316480536]
+color = Color(0.078431375, 0.078431375, 0.078431375, 1)
+
+[node name="DangerGauge" parent="Right" unique_id=1899284904 instance=ExtResource("4")]
+position = Vector2(308, -112)
+rotation = 1.5707964
+alignment = 1
+collider_gap_push_dir = Vector2(1, 0)
+
+[node name="DangerBumperStaticBody" type="StaticBody2D" parent="." unique_id=937278426]
+position = Vector2(0, -80)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DangerBumperStaticBody" unique_id=1942153337]
+shape = SubResource("CircleShape2D_8x20i")
+
+[node name="DangerBumperBeam" type="ColorRect" parent="." unique_id=1204928516]
+process_mode = 3
+visible = false
+z_index = 72
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1024.0
+offset_top = -176.0
+offset_right = 1024.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1024, 64)
+color = Color(1, 0.1843273, 0.23907065, 1)
+script = ExtResource("9")
+
+[node name="FloatBar" parent="." unique_id=1677910623 instance=ExtResource("10")]
+position = Vector2(0, -240)
+
+[node name="LaunchArrow" type="Node2D" parent="." unique_id=1062896129 node_paths=PackedStringArray("stretch_sfx")]
+process_mode = 3
+z_index = 42
+script = ExtResource("11")
+stretch_sfx = NodePath("ArrowStretchSfx")
+metadata/_custom_type_script = "uid://davxngnjsgshl"
+
+[node name="ArrowStretchSfx" type="AudioStreamPlayer2D" parent="LaunchArrow" unique_id=1803179494]
+stream = ExtResource("12")
+volume_db = 10.0
+max_polyphony = 8
+
+[node name="GravityArea" parent="." unique_id=1747548623 instance=ExtResource("13")]
+visible = false
+collision_mask = 1024
+
+[node name="SpawnPool" parent="." unique_id=978788357 instance=ExtResource("14")]
+
+[node name="ActiveSoboMarkers" type="Node2D" parent="." unique_id=751763702]
+z_index = 10
+position = Vector2(0, -320)
+script = ExtResource("15")
+
+[node name="SoboOutline" type="Line2D" parent="." unique_id=1073604995]
+z_index = 20
+closed = true
+joint_mode = 2
+round_precision = 3
+antialiased = true
+script = ExtResource("16")
+suba_circle_shape = ExtResource("17")
+metadata/_custom_type_script = "uid://me667wi70476"
+
+[node name="StructureInvertedPoly" parent="." unique_id=487489527 node_paths=PackedStringArray("outline") instance=ExtResource("18")]
+z_index = 60
+polygon = PackedVector2Array(-296, -320, 296, -320, 296, 256, 232, 320, -232, 320, -296, 256)
+outline = NodePath("Outline")
+
+[node name="Outline" type="Line2D" parent="StructureInvertedPoly" unique_id=1938423846]
+points = PackedVector2Array(-308, -332, 308, -332, 308, 260, 236, 332, -236, 332, -308, 260)
+closed = true
+width = 24.0
+default_color = Color(0.2, 0.2, 0.2, 1)
+joint_mode = 2
+
+[node name="Clutterer" parent="." unique_id=1843455699 instance=ExtResource("19")]
+position = Vector2(0, 256)
+
+[node name="SelectSFX" type="AudioStreamPlayer2D" parent="." unique_id=118324653]
+stream = ExtResource("20")
+volume_db = 2.0
+pitch_scale = 0.7
+
+[node name="CancelSFX" type="AudioStreamPlayer2D" parent="." unique_id=738015400]
+stream = ExtResource("21")
+volume_db = 8.0
+
+[node name="LaunchSFX" type="AudioStreamPlayer2D" parent="." unique_id=517893296]
+stream = ExtResource("22")
+max_polyphony = 2
+
+[node name="LossOfControlSFX" type="AudioStreamPlayer2D" parent="." unique_id=1521521946]
+process_mode = 3
+stream = ExtResource("23")
+volume_db = -9.0
+pitch_scale = 0.8
+
+[node name="Instructions" type="Control" parent="." unique_id=811004599 node_paths=PackedStringArray("mouse_instructions", "gamepad_instructions", "touch_instructions", "dpad_rect", "ls_rect", "rs_rect", "rb_rect", "demo_explanation")]
+z_index = 50
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("24")
+script = ExtResource("25")
+mouse_instructions = NodePath("MouseInstructions")
+gamepad_instructions = NodePath("GamepadInstructions")
+touch_instructions = NodePath("TouchInstructions")
+dpad_rect = NodePath("GamepadInstructions/HBoxContainer/TextureRect")
+ls_rect = NodePath("GamepadInstructions/HBoxContainer/TextureRect2")
+rs_rect = NodePath("GamepadInstructions/HBoxContainer2/TextureRect")
+rb_rect = NodePath("GamepadInstructions/HBoxContainer3/TextureRect")
+demo_explanation = NodePath("DemoExplanation")
+demo_explanation_visible_duration = 10.0
+ps_dpad = ExtResource("26")
+ps_ls = ExtResource("27")
+ps_rs = ExtResource("28")
+ps_rb = ExtResource("29")
+xb_dpad = ExtResource("30")
+xb_ls = ExtResource("31")
+xb_rs = ExtResource("32")
+xb_rb = ExtResource("33")
+
+[node name="MouseInstructions" type="VBoxContainer" parent="Instructions" unique_id=635197276]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Instructions/MouseInstructions" unique_id=1299486499]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/MouseInstructions/HBoxContainer" unique_id=952103710]
+layout_mode = 2
+text = "left click and hold"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/MouseInstructions/HBoxContainer" unique_id=1640858196]
+layout_mode = 2
+texture = ExtResource("34")
+expand_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Instructions/MouseInstructions" unique_id=1651580397]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/MouseInstructions/HBoxContainer2" unique_id=1731831966]
+layout_mode = 2
+text = "drag to aim"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/MouseInstructions/HBoxContainer2" unique_id=604861775]
+layout_mode = 2
+texture = ExtResource("35")
+expand_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Instructions/MouseInstructions" unique_id=1861358872]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/MouseInstructions/HBoxContainer3" unique_id=1825921948]
+layout_mode = 2
+text = "release to launch"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/MouseInstructions/HBoxContainer3" unique_id=121609909]
+layout_mode = 2
+texture = ExtResource("36")
+expand_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Instructions/MouseInstructions" unique_id=898302181]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/MouseInstructions/HBoxContainer4" unique_id=1113411928]
+layout_mode = 2
+text = "right click to cancel launch"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/MouseInstructions/HBoxContainer4" unique_id=797865614]
+layout_mode = 2
+texture = ExtResource("37")
+expand_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Instructions/MouseInstructions" unique_id=2028105728]
+layout_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Instructions/MouseInstructions" unique_id=1795122823]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/MouseInstructions/HBoxContainer5" unique_id=1972467159]
+layout_mode = 2
+text = "or use gamepad"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/MouseInstructions/HBoxContainer5" unique_id=468475681]
+layout_mode = 2
+texture = ExtResource("38")
+expand_mode = 2
+
+[node name="GamepadInstructions" type="VBoxContainer" parent="Instructions" unique_id=625095527]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Instructions/GamepadInstructions" unique_id=1062701017]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/GamepadInstructions/HBoxContainer" unique_id=1673691860]
+layout_mode = 2
+text = "select"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/GamepadInstructions/HBoxContainer" unique_id=1973726460]
+layout_mode = 2
+texture = ExtResource("26")
+expand_mode = 2
+
+[node name="Label2" type="Label" parent="Instructions/GamepadInstructions/HBoxContainer" unique_id=1582872101]
+layout_mode = 2
+text = "or"
+
+[node name="TextureRect2" type="TextureRect" parent="Instructions/GamepadInstructions/HBoxContainer" unique_id=998215574]
+layout_mode = 2
+texture = ExtResource("27")
+expand_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Instructions/GamepadInstructions" unique_id=1506966306]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/GamepadInstructions/HBoxContainer2" unique_id=1326874120]
+layout_mode = 2
+text = "aim"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/GamepadInstructions/HBoxContainer2" unique_id=151671763]
+layout_mode = 2
+texture = ExtResource("28")
+expand_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Instructions/GamepadInstructions" unique_id=2072370105]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/GamepadInstructions/HBoxContainer3" unique_id=2023473097]
+layout_mode = 2
+text = "launch"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/GamepadInstructions/HBoxContainer3" unique_id=903338443]
+layout_mode = 2
+texture = ExtResource("29")
+expand_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Instructions/GamepadInstructions" unique_id=1925577318]
+layout_mode = 2
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Instructions/GamepadInstructions" unique_id=1354524970]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/GamepadInstructions/HBoxContainer5" unique_id=1657210609]
+layout_mode = 2
+text = "or use mouse"
+
+[node name="TextureRect" type="TextureRect" parent="Instructions/GamepadInstructions/HBoxContainer5" unique_id=1111596273]
+layout_mode = 2
+texture = ExtResource("36")
+expand_mode = 2
+
+[node name="DemoExplanation" type="HBoxContainer" parent="Instructions" unique_id=181012518]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -218.0
+offset_top = 28.0
+offset_right = 218.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Instructions/DemoExplanation" unique_id=800522292]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+script = ExtResource("39")
+
+[node name="Label2" type="Label" parent="Instructions/DemoExplanation" unique_id=135901551]
+layout_mode = 2
+text = "demo version!
+these game-over bumpers are raised
+much higher in the full version"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="Instructions/DemoExplanation" unique_id=1560771269]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_rotation = 3.1415927
+script = ExtResource("39")
+
+[node name="TouchInstructions" type="VBoxContainer" parent="Instructions" unique_id=957530611]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Instructions/TouchInstructions" unique_id=1460519634]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/TouchInstructions/HBoxContainer" unique_id=682737405]
+layout_mode = 2
+text = "tap and drag to launch"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Instructions/TouchInstructions" unique_id=2024889877]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Instructions/TouchInstructions/HBoxContainer2" unique_id=602090327]
+layout_mode = 2
+text = "drag back to center to cancel"
+
+[node name="PreGameOverDelay" type="Timer" parent="." unique_id=1865015419]
+process_mode = 3
+wait_time = 3.0
+one_shot = true
+
+[node name="Layout" type="Node" parent="." unique_id=633877321]
+script = ExtResource("40")
+size = Vector2(592, 640)
+bevel = 64.0
+
+[connection signal="body_exited" from="Left/CollisionReenabler" to="." method="_on_collision_reenabler_body_exited"]
+[connection signal="body_exited" from="Right/CollisionReenabler" to="." method="_on_collision_reenabler_body_exited"]
+
+[editable path="Left/RayDetector"]
+[editable path="Left/CollisionReenabler"]
+[editable path="Left/DangerBumper"]
+[editable path="Right/RayDetector"]
+[editable path="Right/CollisionReenabler"]
+[editable path="Right/DangerBumper"]

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cyl1lxysmcxdc"]
+
+[ext_resource type="Script" uid="uid://c2s2s23nyyfkv" path="res://game_mode/game_mode_manager.gd" id="1"]
+[ext_resource type="AudioStream" uid="uid://cd74j2d861vdn" path="res://audio/827123__xkeril__startup-sound-computer.wav" id="2"]
+
+[node name="GameModeManager" type="Node" unique_id=1693222660 node_paths=PackedStringArray("game_start_sfx")]
+script = ExtResource("1")
+mode_paths = ["res://game_mode/mode_classic/mode_classic.tscn", "res://game_mode/mode_heave/mode_heave.tscn", "res://game_mode/mode_sobotris/mode_sobotris.tscn", "res://game_mode/mode_classic_mobile/mode_classic_mobile.tscn", "res://game_mode/mode_classic_mobile/mode_classic_mobile_2.tscn", "res://game_mode/mode_sandbox/mode_sandbox.tscn"]
+default_mode_path = "res://game_mode/mode_classic/mode_classic.tscn"
+default_mobile_mode_path = "res://game_mode/mode_classic_mobile/mode_classic_mobile.tscn"
+game_start_sfx = NodePath("StartModeJingle")
+metadata/_custom_type_script = "uid://c2s2s23nyyfkv"
+
+[node name="StartModeJingle" type="AudioStreamPlayer2D" parent="." unique_id=691255035]
+stream = ExtResource("2")
+volume_db = 9.0

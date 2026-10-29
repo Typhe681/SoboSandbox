@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://c5dc2a3c3uwy7"]
+
+[ext_resource type="Theme" uid="uid://br724suw7skep" path="res://ui/theme.tres" id="1"]
+[ext_resource type="Script" uid="uid://btyhv6kbl105k" path="res://ui/menu/screens/settings_screen/settings_screen.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://uc33dntrgidq" path="res://ui/button/sobo_menu_button.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bcqsttcaim422" path="res://ui/button/bool/sobo_menu_button_bool.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://cr5xg20lov6mb" path="res://ui/button/float/sobo_menu_button_float.tscn" id="5"]
+[ext_resource type="Script" uid="uid://cloapmmyxq8d0" path="res://ui/styled_label.gd" id="6"]
+
+[node name="SettingScreen" type="Control" unique_id=531042761 node_paths=PackedStringArray("mute_control", "volume_control", "input_btn", "fullscreen_control", "live_friend_scores_control", "unrestricted_spawn_control", "description_label", "first_button_hovered")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1")
+script = ExtResource("2")
+mute_control = NodePath("MainControlList/Mute")
+volume_control = NodePath("MainControlList/Volume")
+input_btn = NodePath("MainControlList/Input")
+fullscreen_control = NodePath("MainControlList/Fullscreen")
+live_friend_scores_control = NodePath("MainControlList/LiveFriendScores")
+unrestricted_spawn_control = NodePath("MainControlList/UnrestrictedSpawn")
+description_label = NodePath("MainControlList/Description")
+side_title_text = "settings"
+first_button_hovered = NodePath("MainControlList/Game")
+metadata/_custom_type_script = "uid://btyhv6kbl105k"
+
+[node name="MainControlList" type="VBoxContainer" parent="." unique_id=303483352]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_right = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Game" parent="MainControlList" unique_id=206906026 instance=ExtResource("3")]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Configure gameplay settings."
+
+[node name="Label" parent="MainControlList/Game/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(206906026, 263480215) index="0" unique_id=1798988128]
+text = "game"
+
+[node name="Input" parent="MainControlList" unique_id=206906025 instance=ExtResource("3")]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Configure mouse and gamepad controls."
+
+[node name="Label" parent="MainControlList/Input/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(206906025, 263480215) index="0" unique_id=1798988128]
+text = "input"
+
+[node name="sep_input" type="HSeparator" parent="MainControlList" unique_id=2115421161]
+layout_mode = 2
+
+[node name="Fullscreen" parent="MainControlList" unique_id=206906019 instance=ExtResource("4")]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Toggle fullscreen window mode."
+
+[node name="Label" parent="MainControlList/Fullscreen/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(206906019, 263480215) index="0" unique_id=1798988128]
+text = "fullscreen (f)"
+
+[node name="HSeparator3" type="HSeparator" parent="MainControlList" unique_id=1717311958]
+layout_mode = 2
+
+[node name="Mute" parent="MainControlList" unique_id=2074786810 instance=ExtResource("4")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+tooltip_text = "Mute all game audio."
+
+[node name="Label" parent="MainControlList/Mute/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(2074786810, 263480215) index="0" unique_id=1798988128]
+text = "mute (m)"
+
+[node name="Volume" parent="MainControlList" unique_id=630615890 instance=ExtResource("5")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+tooltip_text = "Adjust the master volume."
+
+[node name="Label" parent="MainControlList/Volume/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(630615890, 263480215) index="0" unique_id=1798988128]
+text = "volume"
+
+[node name="sep3" type="HSeparator" parent="MainControlList" unique_id=302355351]
+layout_mode = 2
+
+[node name="LiveFriendScores" parent="MainControlList" unique_id=900400031 instance=ExtResource("4")]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "experimental: display your friends scores in real time"
+
+[node name="Label" parent="MainControlList/LiveFriendScores/MarginContainer/HBoxContainer" parent_id_path=PackedInt32Array(900400031, 263480215) index="0" unique_id=1798988128]
+text = "live friend scores"
+
+[node name="UnrestrictedSpawn" parent="MainControlList" instance=ExtResource("4")]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "spawn sobos anywhere, ignoring collisions (within sandbox mode)"
+
+[node name="Label" parent="MainControlList/UnrestrictedSpawn/MarginContainer/HBoxContainer" index="0"]
+text = "unrestricted spawn"
+
+[node name="Description" type="Label" parent="MainControlList" unique_id=1566161291]
+custom_minimum_size = Vector2(512, 128)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+script = ExtResource("6")
+
+[connection signal="release_press" from="MainControlList/Game" to="." method="_on_game_release_press"]
+[connection signal="release_press" from="MainControlList/Input" to="." method="_on_input_release_press"]
+[connection signal="release_press" from="MainControlList/Fullscreen" to="." method="_on_fullscreen_release_press"]
+[connection signal="release_press" from="MainControlList/Mute" to="." method="_on_mute_release_press"]
+[connection signal="on_value_changed" from="MainControlList/Volume" to="." method="_on_volume_on_value_changed"]
+[connection signal="release_press" from="MainControlList/LiveFriendScores" to="." method="_on_live_friend_scores_release_press"]
+[connection signal="release_press" from="MainControlList/UnrestrictedSpawn" to="." method="_on_unrestricted_spawn_release_press"]
+
+[editable path="MainControlList/Game"]
+[editable path="MainControlList/Input"]
+[editable path="MainControlList/Fullscreen"]
+[editable path="MainControlList/Mute"]
+[editable path="MainControlList/Volume"]
+[editable path="MainControlList/LiveFriendScores"]
+[editable path="MainControlList/UnrestrictedSpawn"]
