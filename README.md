@@ -1,5 +1,5 @@
-# SoboSandbox!
-Unlocks gamemodes and adds a sandbox gamemode that:
+# SoboSandbox
+A Sobosuba mod that unlocks gamemodes, and adds a sandbox gamemode that:
 - unlocks developer hotkeys
 - prevents gameover
 - locks achievements + scores
@@ -12,7 +12,7 @@ Install GDPatch (https://gdpatch.dev/using/install/)
 
 Run the game once to setup GDPatch
 
-Extract sobosandbox.zip into sobosuba\GDPatch\mods\sobosandbox
+Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases) into `sobosuba\GDPatch\mods\sobosandbox`
 
 That's it :3
 
