@@ -26,7 +26,7 @@ jobs:
 
       - name: Write pack script
         run: |
-          cat > /tmp/sandbox.gd <<'EOF'
+          cat > /tmp/pack.gd <<'EOF'
           extends SceneTree
 
           const SRC = "pck_files"
