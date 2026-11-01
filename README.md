@@ -7,20 +7,20 @@ A Sobosuba mod which adds a sandbox gamemode that:
 Tested on Sobosuba v1.2.3 (Godot 4.7.2)
 
 
-## How to install:
-Install GDPatch (https://gdpatch.dev/using/install/)
+## Installation:
 
-Run the game once to setup GDPatch
+Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases/latest) next to `sobosuba.exe`
 
-Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases/latest) into `sobosuba\GDPatch\mods\sobosandbox`
-
-That's it :3
-
-
-## How to uninstall:
-Question why you would do this
-
-Just delete the mod folder and GDPatch's files
+It should look like this:
+```
+├── sobosuba.exe
+├── override.cfg
+└── mods
+    └── sobosandbox
+        ├── wrapper.gd
+        └── sandbox.pck
+```
+If `override.cfg` already exists due to another mod, add `SoboSandbox="mods/sobosandbox/wrapper.gd"` to the `[autoload]` section
 
 
 ## Hotkeys:
