@@ -2,7 +2,7 @@ id = "sobosandbox"
 
 [meta]
 name = "SoboSandbox"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["Typhe"]
-description = "Unlocks gamemodes, and adds a sandbox gamemode that enables developer keybinds, prevents bumpers from triggering a game over, and blocks achievements/scores."
+description = "Adds a sandbox gamemode that enables developer keybinds, prevents bumpers from triggering a game over, and blocks achievements/scores."
 website = "https://github.com/Typhe681/SoboSandbox"
