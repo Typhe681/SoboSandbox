@@ -26,11 +26,11 @@ jobs:
 
       - name: Write pack script
         run: |
-          cat > /tmp/pack.gd <<'EOF'
+          cat > /tmp/sandbox.gd <<'EOF'
           extends SceneTree
 
           const SRC = "pck_files"
-          const OUT = "data.pck"
+          const OUT = "sandbox.pck"
 
           var packer := PCKPacker.new()
           var failed := false
@@ -70,13 +70,13 @@ jobs:
                       failed = true
           EOF
 
-      - name: Make data.pck
+      - name: Make sandbox.pck
         run: godot --headless --script /tmp/pack.gd
 
       - name: Commit data.pck
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.pck
-          git diff --cached --quiet || git commit -m "Make data.pck"
+          git add sandbox.pck
+          git diff --cached --quiet || git commit -m "Make sandbox.pck"
           git push
