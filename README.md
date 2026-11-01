@@ -12,7 +12,7 @@ Install GDPatch (https://gdpatch.dev/using/install/)
 
 Run the game once to setup GDPatch
 
-Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases) into `sobosuba\GDPatch\mods\sobosandbox`
+Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases/latest) into `sobosuba\GDPatch\mods\sobosandbox`
 
 That's it :3
 
