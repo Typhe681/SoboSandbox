@@ -1,7 +1,5 @@
 extends Node
 
-const LABEL_PATH = "Main/Ui/MainHBox/RightSidePanel/ScoringDisabled"
-
 const TEXT = {
     "en": "  scoring and achievements\n  are disabled within\n  sandbox mode",
     "cs": "  skóre a úspěchy\n  jsou vypnuté v\n  sandboxovém režimu",
@@ -16,40 +14,53 @@ const TEXT = {
     "zh_TW": "  在沙盒模式中\n  計分和成就已被停用",
 }
 
-var lbl: Label
-var lbl_text := ""
-var lbl_translate := Node.AUTO_TRANSLATE_MODE_INHERIT
-var lbl_overridden := false
+const LABEL_PATH = "Main/Ui/MainHBox/RightSidePanel/ScoringDisabled"
+const CFG := "user://sobosandbox.cfg"
+var unrestricted_spawn := false
+var toggle: SoboMenuButtonBool
 
-func _process(_d):
+var label: Label
+var label_text := ""
+var label_translate := Node.AUTO_TRANSLATE_MODE_INHERIT
+var label_overridden := false
+var load_armed := false
+var load_timer := 0.0
+var save_was_present := false
+var achievements_before := false
+
+func _process(dt: float) -> void:
+    var present: bool = SaveLoadManager.has_save()
+    if load_armed:
+        load_timer += dt
+        if not present:
+            load_armed = false
+            SaveLoadManager.save()
+        elif load_timer > 10:
+            load_armed = false
+    save_was_present = present
     var sandbox: bool = GameModeManager.current_mode_name == "mode_sandbox"
     if sandbox and unrestricted_spawn and Dev.spawning_sobo:
         Dev.spawn_sobo_data = SoboManager.get_closest_sobo_data_to_radius(Dev.spawn_sobo_target_radius)
     Dev.debug_keys_enabled = sandbox
-    if not is_instance_valid(lbl):
-        lbl = get_tree().root.get_node_or_null(LABEL_PATH)
-        lbl_overridden = false
-        if lbl == null:
+    if not is_instance_valid(label):
+        label = get_tree().root.get_node_or_null(LABEL_PATH)
+        label_overridden = false
+        if label == null:
             return
-        lbl_text = lbl.text
-        lbl_translate = lbl.auto_translate_mode
+        label_text = label.text
+        label_translate = label.auto_translate_mode
     if sandbox:
-        if not lbl_overridden:
-            lbl_overridden = true
-            lbl.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+        if not label_overridden:
+            label_overridden = true
+            label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
         var loc := TranslationServer.get_locale()
         var txt: String = TEXT.get(loc, TEXT.get(loc.substr(0, 2), TEXT["en"]))
-        if lbl.text != txt:
-            lbl.text = txt
-    elif lbl_overridden:
-        lbl_overridden = false
-        lbl.auto_translate_mode = lbl_translate
-        lbl.text = lbl_text
-
-const CFG := "user://sobosandbox.cfg"
-
-var unrestricted_spawn := false
-var toggle: SoboMenuButtonBool
+        if label.text != txt:
+            label.text = txt
+    elif label_overridden:
+        label_overridden = false
+        label.auto_translate_mode = label_translate
+        label.text = label_text
 
 func _ready() -> void:
     process_priority = 100
@@ -80,6 +91,17 @@ func _physics_process(_dt: float) -> void:
     if Dev.pushing_danger_bumper_right:
         Dev.on_cheat.emit()
         mode.right.danger_bumper.rigidbody.apply_central_force(Vector2.RIGHT * Dev.danger_bumper_push_force)
+
+func _input(event: InputEvent) -> void:
+    if event is InputEventKey and not event.echo and event.pressed:
+        if not Dev.debug_keys_enabled or Console.is_open():
+            return
+        match event.keycode:
+            KEY_KP_SUBTRACT:
+                load_armed = save_was_present
+                load_timer = 0.0
+            KEY_KP_MULTIPLY:
+                load_armed = false
 
 func clone_control(model: Control) -> Control:
     var copy: Control = model.duplicate(Node.DUPLICATE_GROUPS | Node.DUPLICATE_SCRIPTS | Node.DUPLICATE_USE_INSTANTIATION)
@@ -151,8 +173,6 @@ func value_for_copy(value: Variant, original: Node, copy: Node) -> Variant:
             mapped[i] = value_for_copy(mapped[i], original, copy)
         return mapped
     return value
-
-var achievements_before := false
 
 func set_online_blocked(blocked: bool) -> void:
     var connected: bool = SignalBus.on_game_over.is_connected(ScoreManager.on_game_over)
