@@ -1,5 +1,5 @@
 # SoboSandbox
-A Sobosuba mod that adds a sandbox gamemode that:
+A Sobosuba mod which adds a sandbox gamemode that:
 - unlocks developer hotkeys
 - prevents gameover
 - locks achievements + scores
