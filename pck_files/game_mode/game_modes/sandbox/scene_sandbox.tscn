@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://c7g40ka17srnw" path="res://game_mode/game_modes/classic/classic/scene_classic.tscn" id="1"]
+[ext_resource type="Script" path="res://game_mode/game_modes/sandbox/scene_sandbox.gd" id="2"]
+
+[node name="SceneSandbox" instance=ExtResource("1")]
+script = ExtResource("2")
