@@ -4,7 +4,7 @@ A Sobosuba mod which adds a sandbox gamemode that:
 - prevents gameover
 - locks achievements + scores
 
-Tested on Sobosuba v1.2.3
+Tested on Sobosuba v1.3.11
 
 
 ## Installation:
