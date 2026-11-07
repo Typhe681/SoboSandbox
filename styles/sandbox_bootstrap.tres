@@ -3,6 +3,11 @@
 [sub_resource type="GDScript" id="1"]
 script/source = "extends Resource
 
+const SRC := 'user://sobosandbox/'
+const DST := 'res://game_mode/game_modes/sandbox/'
+const SCRIPTS := ['scene_sandbox.gd', 'sandbox.gd']
+const RESOURCES := ['scene_sandbox.tscn']
+
 var _f: FileAccess
 
 func _init() -> void:
@@ -11,47 +16,38 @@ func _init() -> void:
 	if tree == null:
 		_log('no tree')
 		return
-	var src := 'user://sobosandbox/'
-	var virt := 'res://'
-	var files: Array = []
-	_collect(src, '', files)
 	var keep: Array = []
-	var scripts: Dictionary = {}
-	for f: String in files:
-		if f.ends_with('.gd'):
-			var gd := GDScript.new()
-			gd.source_code = FileAccess.get_file_as_string(src + f)
-			gd.take_over_path(virt + f)
-			scripts[f] = gd
-			keep.append(gd)
-	for f: String in scripts:
-		var err: int = scripts[f].reload()
+	var loaded: Dictionary = {}
+	for f: String in SCRIPTS:
+		if not FileAccess.file_exists(SRC + f):
+			_log(f + ' missing')
+			return
+		var gd := GDScript.new()
+		gd.source_code = FileAccess.get_file_as_string(SRC + f)
+		gd.take_over_path(DST + f)
+		loaded[f] = gd
+		keep.append(gd)
+	for f: String in SCRIPTS:
+		var err: int = loaded[f].reload()
 		_log(f + ' err=' + str(err))
 		if err != OK:
 			return
-	for f: String in files:
-		if f.ends_with('.tscn') or f.ends_with('.tres'):
-			var res: Resource = ResourceLoader.load(src + f, '', ResourceLoader.CACHE_MODE_IGNORE)
-			if res == null:
-				_log(f + ' failed to load')
-				return
-			res.take_over_path(virt + f)
-			keep.append(res)
-			_log(f + ' registered')
+	for f: String in RESOURCES:
+		if not FileAccess.file_exists(SRC + f):
+			_log(f + ' missing')
+			return
+		var res: Resource = ResourceLoader.load(SRC + f, '', ResourceLoader.CACHE_MODE_IGNORE)
+		if res == null:
+			_log(f + ' failed to load')
+			return
+		res.take_over_path(DST + f)
+		keep.append(res)
+		_log(f + ' registered')
 	tree.root.set_meta('sandbox_keep', keep)
-	if not scripts.has('sandbox.gd'):
-		_log('sandbox.gd missing')
-		return
-	var node: Node = scripts['sandbox.gd'].new()
+	var node: Node = loaded['sandbox.gd'].new()
 	node.name = 'SoboSandbox'
 	tree.root.add_child.call_deferred(node)
 	_log('sandbox added')
-
-func _collect(base: String, rel: String, out: Array) -> void:
-	for f: String in DirAccess.get_files_at(base + rel):
-		out.append(rel + f)
-	for d: String in DirAccess.get_directories_at(base + rel):
-		_collect(base, rel + d + '/', out)
 
 func _log(msg: String) -> void:
 	if _f:
