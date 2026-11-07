@@ -6,7 +6,7 @@
   "game_versions": [
     "1.3.11",
     "1.3.10",
-    "1.3.9",
+    "1.3.9"
   ],
   "install_layout": "user-data-styles",
   "payload_root": "sobosandbox",
