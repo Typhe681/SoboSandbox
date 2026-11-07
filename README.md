@@ -9,18 +9,21 @@ Tested on Sobosuba v1.2.3
 
 ## Installation:
 
-Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases/latest) next to `sobosuba.exe`
+Extract `sobosandbox.zip` from the [latest release](https://github.com/Typhe681/SoboSandbox/releases/latest) into Sobosuba's userdata folder
+
+* **Windows:** `%APPDATA%\Godot\app_userdata\sobosuba`
+* **Linux:** `~/.local/share/godot/app_userdata/sobosuba`
+
 
 It should look like this:
 ```
-├── sobosuba.exe
-├── override.cfg
-└── mods
-    └── sobosandbox
-        ├── wrapper.gd
-        └── sandbox.pck
+├── styles
+|   └── sandbox_bootstrap.tres
+└── sobosandbox
+    ├── sandbox.gd
+    ├── scene_sandbox.gd
+    └── scene_sandbox.tscn
 ```
-If `override.cfg` already exists due to another mod, add `SoboSandbox="mods/sobosandbox/wrapper.gd"` to the `[autoload]` section
 
 
 ## Hotkeys:
@@ -35,8 +38,10 @@ If `override.cfg` already exists due to another mod, add `SoboSandbox="mods/sobo
 | Q / E | Press bumpers in |
 | C | Shockwave |
 | L | Cycle language |
+| P | Load replay² |
 | Numpad+ | Save game |
 | Numpad- | Load game |
 | Numpad* | Clear save |
 
 ¹collision check can be disabled in settings with the 'unrestricted spawn' toggle
+²there's currently no way to resume after loading a replay, so just quit the game then resume
