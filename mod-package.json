@@ -1,0 +1,28 @@
+{
+  "format_version": 1,
+  "id": "sobosandbox",
+  "name": "SoboSandbox",
+  "version": "1.3.0",
+  "game_versions": [
+    "1.3.11",
+    "1.3.10",
+    "1.3.9",
+  ],
+  "install_layout": "user-data-styles",
+  "payload_root": "sobosandbox",
+  "entry": "sandbox.gd",
+  "autoload": "SoboSandbox",
+  "bootstrap": "styles/sandbox_bootstrap.tres",
+  "files": [
+    "sobosandbox/scene_sandbox.gd",
+    "sobosandbox/scene_sandbox.tscn",
+    "sobosandbox/sandbox.gd",
+    "styles/sandbox_bootstrap.tres"
+  ],
+  "author": "Typhe681",
+  "description": {
+    "en": "Adds a sandbox mode with developer hotkeys, no game over, and disabled achievements + scores."
+  },
+  "readme": "README.md",
+  "dependencies": []
+}
