@@ -1,20 +1,29 @@
 extends Node
 
 const TEXT = {
-	"en": "  scoring and achievements\n  are disabled within\n  sandbox mode",
-	"cs": "  skóre a úspěchy\n  jsou vypnuté v\n  sandboxovém režimu",
-	"de": "  Punkte und Erfolge\n  sind im Sandbox-Modus\n  deaktiviert",
-	"es": "  puntuación y logros\n  están desactivados en\n  el modo sandbox",
-	"it": "  punteggi e obiettivi\n  sono disattivati nella\n  modalità sandbox",
-	"ja": "  スコアと実績は\n  サンドボックスモードでは\n  無効になります",
-	"pl": "  wyniki i osiągnięcia\n  są wyłączone w\n  trybie sandbox",
-	"ru": "  очки и достижения\n  отключены в режиме\n  песочницы",
-	"sr": "  rezultati i dostignuća\n  su isključeni u\n  sandbox modu",
-	"zh_CN": "  在沙盒模式中\n  计分和成就已被禁用",
-	"zh_TW": "  在沙盒模式中\n  計分和成就已被停用",
+	"en": "scoring and achievements\nare disabled within\nsandbox mode",
+	"cs": "skóre a úspěchy\njsou vypnuté v\nsandboxovém režimu",
+	"de": "Punkte und Erfolge\nsind im Sandbox-Modus\ndeaktiviert",
+	"es": "puntuación y logros\nestán desactivados en\nel modo sandbox",
+	"fr": "le score et les succès\nsont désactivés en\nmode bac à sable",
+	"hu": "a pontszámítás és a\nteljesítmények le vannak\ntiltva a sandbox módban",
+	"id": "skor dan pencapaian\ndinonaktifkan dalam\nmode sandbox",
+	"it": "punteggi e obiettivi\nsono disattivati nella\nmodalità sandbox",
+	"ja": "スコアと実績は\nサンドボックス\nモードでは\n無効になります",
+	"ko": "스코어와 업적은\n샌드박스 모드에서\n비활성화됩니다",
+	"nl": "scores en prestaties\nzijn uitgeschakeld in\nde sandbox-modus",
+	"pl": "wyniki i osiągnięcia\nsą wyłączone w\ntrybie sandbox",
+	"pt_BR": "pontuação e conquistas\nestão desativadas no\nmodo sandbox",
+	"ro": "punctajul și realizările\nsunt dezactivate în\nmodul sandbox",
+	"ru": "очки и достижения\nотключены в режиме\nпесочницы",
+	"sr": "rezultati i dostignuća\nsu isključeni u\nsandbox modu",
+	"tr": "puanlama ve başarımlar\nsandbox modunda\ndevre dışı bırakıldı",
+	"uk": "оцінка та досягнення\nвимкнені в режимі\nпісочниці",
+	"vi": "điểm số và thành tựu\nbị vô hiệu hóa trong\nchế độ sandbox",
+	"zh_CN": "在沙盒模式中\n计分和成就已被禁用",
+	"zh_TW": "在沙盒模式中\n計分和成就已被停用",
 }
 
-const LABEL_PATH = "Main/Ui/MainHBox/RightSidePanel/ScoringDisabled"
 const CFG := "user://sobosandbox.cfg"
 var unrestricted_spawn := false
 var toggle: SoboMenuButtonBool
@@ -27,6 +36,41 @@ var load_armed := false
 var load_timer := 0.0
 var save_was_present := false
 var achievements_before := false
+var panel_label: Label
+
+func get_right_panel() -> Node:
+	return get_tree().root.find_child("RightSidePanel", true, false)
+
+func update_sandbox_label(sandbox: bool) -> void:
+	if sandbox:
+		if not is_instance_valid(panel_label):
+			var panel := get_right_panel()
+			if panel == null:
+				return
+			panel_label = Label.new()
+			panel_label.name = "SandboxScoringDisabled"
+			panel_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			panel_label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+			panel_label.theme = panel.theme
+			
+			panel_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			panel_label.offset_left = 40
+			panel_label.offset_right = -20
+			panel_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			panel_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+			
+			panel_label.add_theme_color_override("font_color", Color("#ff0000"))
+			panel.add_child(panel_label)
+			
+		var loc := TranslationServer.get_locale()
+		var txt: String = TEXT.get(loc, TEXT.get(loc.substr(0, 2), TEXT["en"]))
+		
+		if panel_label.text != txt:
+			panel_label.text = txt
+			
+	elif is_instance_valid(panel_label):
+		panel_label.queue_free()
+		panel_label = null
 
 func _process(dt: float) -> void:
 	var present: bool = SaveLoadManager.has_save()
@@ -42,25 +86,7 @@ func _process(dt: float) -> void:
 	if sandbox and unrestricted_spawn and Dev.spawning_sobo:
 		Dev.spawn_sobo_data = SoboManager.get_closest_sobo_data_to_radius(Dev.spawn_sobo_target_radius)
 	Dev.debug_keys_enabled = sandbox
-	if not is_instance_valid(label):
-		label = get_tree().root.get_node_or_null(LABEL_PATH)
-		label_overridden = false
-		if label == null:
-			return
-		label_text = label.text
-		label_translate = label.auto_translate_mode
-	if sandbox:
-		if not label_overridden:
-			label_overridden = true
-			label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-		var loc := TranslationServer.get_locale()
-		var txt: String = TEXT.get(loc, TEXT.get(loc.substr(0, 2), TEXT["en"]))
-		if label.text != txt:
-			label.text = txt
-	elif label_overridden:
-		label_overridden = false
-		label.auto_translate_mode = label_translate
-		label.text = label_text
+	update_sandbox_label(sandbox)
 
 var mode_res: GameMode
 
@@ -134,14 +160,7 @@ func on_sandbox_pressed() -> void:
 
 func install_toggle() -> void:
 	var model: SoboMenuButtonBool = null
-	for i in 600:
-		model = get_tree().root.find_child("LiveFriendScores", true, false)
-		if model != null and model.is_node_ready():
-			break
-		await get_tree().process_frame
-	if model == null:
-		push_warning("sandbox: LiveFriendScores toggle not found")
-		return
+	model = get_tree().root.find_child("LiveFriendScores", true, false)
 	var button: SoboMenuButtonBool = model.duplicate(Node.DUPLICATE_GROUPS | Node.DUPLICATE_SCRIPTS | Node.DUPLICATE_USE_INSTANTIATION)
 	for prop: Dictionary in model.get_property_list():
 		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE and prop.usage & PROPERTY_USAGE_STORAGE:
@@ -151,6 +170,9 @@ func install_toggle() -> void:
 	button.tooltip_text = "spawn sobos anywhere, ignoring collisions (within sandbox mode)"
 	button.release_press.connect(on_toggle_pressed)
 	model.add_sibling(button)
+	var settings_list := model.get_parent() as Control
+	var partial_button_height := button.get_combined_minimum_size().y / 2.5
+	settings_list.position.y += partial_button_height
 	toggle = button
 	toggle.set_value(unrestricted_spawn)
 
