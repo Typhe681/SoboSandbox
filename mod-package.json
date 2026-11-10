@@ -19,6 +19,10 @@
     "sobosandbox/sandbox.gd",
     "styles/sandbox_bootstrap.tres"
   ],
+  "game_credit": {
+    "text": "sobosuba by keepee",
+    "store_url": "https://store.steampowered.com/app/1946560/sobosuba"
+  },
   "author": "Typhe681",
   "description": {
     "en": "Adds a sandbox mode with developer hotkeys, no game over, and disabled achievements + scores."
