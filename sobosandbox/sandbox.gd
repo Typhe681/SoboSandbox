@@ -93,7 +93,7 @@ var mode_res: GameMode
 func register_mode() -> void:
 	mode_res = GameMode.new()
 	mode_res.scene_path = "res://game_mode/game_modes/sandbox/scene_sandbox.tscn"
-	mode_res.description = "test description"
+	mode_res.description = "Classic, but with dev hotkeys, no scores, and no achievements!"
 	mode_res.horizontal = true
 	mode_res.allows_start_clutter = true
 	mode_res.take_over_path("res://game_mode/game_modes/sandbox/%s.tres" % "mode_sandbox")
@@ -108,7 +108,6 @@ func _ready() -> void:
 		unrestricted_spawn = cf.get_value("sandbox", "unrestricted_spawn", false)
 	SignalBus.on_game_mode_start.connect(on_game_mode_start)
 	install_toggle()
-	install_sandbox_button()
 	register_mode()
 
 func on_game_mode_start(_scene) -> void:
@@ -134,29 +133,6 @@ func clone_control(model: Control) -> Control:
 		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE and prop.usage & PROPERTY_USAGE_STORAGE:
 			copy.set(prop.name, value_for_copy(model.get(prop.name), model, copy))
 	return copy
-
-func install_sandbox_button() -> void:
-	var model: SoboMenuButton = null
-	for i in 600:
-		model = get_tree().root.find_child("ExtraModes", true, false)
-		if model != null and model.is_node_ready():
-			break
-		await get_tree().process_frame
-	if model == null:
-		push_warning("sandbox: ExtraModes button not found")
-		return
-	var button: SoboMenuButton = clone_control(model)
-	button.name = "Sandbox"
-	button.label.text = "sandbox"
-	button.release_press.connect(on_sandbox_pressed)
-	model.add_sibling(button)
-	button.show()
-
-func on_sandbox_pressed() -> void:
-	GameModeManager.begin_run_for_mode(mode_res)
-	GameModeManager.run.custom = true
-	GameModeManager.start_game_mode(mode_res)
-	Menu._0.try_close()
 
 func install_toggle() -> void:
 	var model: SoboMenuButtonBool = null
