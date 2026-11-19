@@ -37,6 +37,7 @@ var load_timer := 0.0
 var save_was_present := false
 var achievements_before := false
 var panel_label: Label
+var logo_patched := false
 
 func get_right_panel() -> Node:
 	return get_tree().root.find_child("RightSidePanel", true, false)
@@ -72,6 +73,17 @@ func update_sandbox_label(sandbox: bool) -> void:
 		panel_label.queue_free()
 		panel_label = null
 
+func patch_mode_logo() -> void:
+	if logo_patched:
+		return
+
+	for screen in get_tree().root.find_children("*", "GameModesScreen", true, false):
+		for i in screen.mode_names.size():
+			if screen.mode_names[i] == "sandbox":
+				screen.mode_buttons[i].logo.mark = ModeLogo.Mark.CUSTOM
+				logo_patched = true
+				return
+
 func _process(dt: float) -> void:
 	try_connect_broadcaster()
 	var present: bool = SaveLoadManager.has_save()
@@ -88,6 +100,7 @@ func _process(dt: float) -> void:
 		Dev.spawn_sobo_data = SoboManager.get_closest_sobo_data_to_radius(Dev.spawn_sobo_target_radius)
 	Dev.debug_keys_enabled = sandbox
 	update_sandbox_label(sandbox)
+	patch_mode_logo()
 
 var mode_res: GameMode
 
@@ -173,3 +186,4 @@ func set_online_blocked(blocked: bool) -> void:
 			SignalBus.on_game_over.connect(ScoreManager.on_game_over)
 			for c: Dictionary in others:
 				SignalBus.on_game_over.connect(c.callable, c.flags)
+
