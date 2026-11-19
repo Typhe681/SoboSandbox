@@ -2,11 +2,9 @@
   "format_version": 1,
   "id": "sobosandbox",
   "name": "SoboSandbox",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "game_versions": [
-    "1.3.11",
-    "1.3.10",
-    "1.3.9"
+    "1.3.11"
   ],
   "install_layout": "user-data-styles",
   "payload_root": "sobosandbox",
@@ -24,5 +22,11 @@
     "en": "Adds a sandbox mode with developer hotkeys, no game over, and disabled achievements + scores."
   },
   "readme": "README.md",
-  "dependencies": []
+  "dependencies": [
+    {
+      "id": "modsettings",
+      "version": "1.1.1",
+      "sha256": "69bedb1a2edb02391dc7f449fca2b69bbe8905d8f594f620d9bbadbba141b287"
+    }
+  ]
 }
