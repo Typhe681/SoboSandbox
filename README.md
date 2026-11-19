@@ -6,6 +6,7 @@ A [Sobosuba](https://store.steampowered.com/app/1946560/sobosuba) mod which adds
 
 Tested on Sobosuba v1.3.11
 
+Optional dependency: [SoboModSettings](https://github.com/Typhe681/SoboModSettings)
 
 ## Installation:
 Use [Sobosuba Mod Manager](https://github.com/T0y-9n/sobosuba-mods), or do the following:
