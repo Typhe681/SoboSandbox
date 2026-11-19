@@ -26,7 +26,7 @@ const TEXT = {
 
 const CFG := "user://sobosandbox.cfg"
 var unrestricted_spawn := false
-var toggle: SoboMenuButtonBool
+var broadcaster_connected := false
 
 var label: Label
 var label_text := ""
@@ -73,6 +73,7 @@ func update_sandbox_label(sandbox: bool) -> void:
 		panel_label = null
 
 func _process(dt: float) -> void:
+	try_connect_broadcaster()
 	var present: bool = SaveLoadManager.has_save()
 	if load_armed:
 		load_timer += dt
@@ -103,12 +104,41 @@ func register_mode() -> void:
 
 func _ready() -> void:
 	process_priority = 100
-	var cf := ConfigFile.new()
-	if cf.load(CFG) == OK:
-		unrestricted_spawn = cf.get_value("sandbox", "unrestricted_spawn", false)
+	load_config()
+	try_connect_broadcaster()
 	SignalBus.on_game_mode_start.connect(on_game_mode_start)
-	install_toggle()
 	register_mode()
+
+func load_config() -> void:
+	var cf := ConfigFile.new()
+	cf.load(CFG)
+	unrestricted_spawn = cf.get_value("unrestricted_spawn", "value", false)
+	write_config()
+
+func write_config() -> void:
+	var cf := ConfigFile.new()
+	cf.set_value("meta", "name", "SoboSandbox")
+	cf.set_value("meta", "description", "Configure SoboSandbox")
+	cf.set_value("unrestricted_spawn", "type", "bool")
+	cf.set_value("unrestricted_spawn", "label", "unrestricted spawn")
+	cf.set_value("unrestricted_spawn", "description", "spawn sobos anywhere, ignoring collisions (within sandbox mode)")
+	cf.set_value("unrestricted_spawn", "value", unrestricted_spawn)
+	cf.save(CFG)
+
+func try_connect_broadcaster() -> void:
+	if broadcaster_connected:
+		return
+	var broadcaster = get_tree().root.get_meta("modsettings_broadcaster", null)
+	if broadcaster:
+		broadcaster.config_changed.connect(on_config_changed)
+		broadcaster_connected = true
+
+func on_config_changed(path: String, section: String, value: Variant) -> void:
+	if path.get_file() != CFG.get_file():
+		return
+	match section:
+		"unrestricted_spawn":
+			unrestricted_spawn = value
 
 func on_game_mode_start(_scene) -> void:
 	var sandbox: bool = GameModeManager.current_mode_name == "mode_sandbox"
@@ -126,52 +156,6 @@ func _input(event: InputEvent) -> void:
 				load_timer = 0.0
 			KEY_KP_MULTIPLY:
 				load_armed = false
-
-func clone_control(model: Control) -> Control:
-	var copy: Control = model.duplicate(Node.DUPLICATE_GROUPS | Node.DUPLICATE_SCRIPTS | Node.DUPLICATE_USE_INSTANTIATION)
-	for prop: Dictionary in model.get_property_list():
-		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE and prop.usage & PROPERTY_USAGE_STORAGE:
-			copy.set(prop.name, value_for_copy(model.get(prop.name), model, copy))
-	return copy
-
-func install_toggle() -> void:
-	var model: SoboMenuButtonBool = null
-	model = get_tree().root.find_child("LiveFriendScores", true, false)
-	var button: SoboMenuButtonBool = model.duplicate(Node.DUPLICATE_GROUPS | Node.DUPLICATE_SCRIPTS | Node.DUPLICATE_USE_INSTANTIATION)
-	for prop: Dictionary in model.get_property_list():
-		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE and prop.usage & PROPERTY_USAGE_STORAGE:
-			button.set(prop.name, value_for_copy(model.get(prop.name), model, button))
-	button.name = "UnrestrictedSpawn"
-	button.label.text = "unrestricted spawn"
-	button.tooltip_text = "spawn sobos anywhere, ignoring collisions (within sandbox mode)"
-	button.release_press.connect(on_toggle_pressed)
-	model.add_sibling(button)
-	var settings_list := model.get_parent() as Control
-	var partial_button_height := button.get_combined_minimum_size().y / 2.5
-	settings_list.position.y += partial_button_height
-	toggle = button
-	toggle.set_value(unrestricted_spawn)
-
-func on_toggle_pressed() -> void:
-	unrestricted_spawn = not unrestricted_spawn
-	toggle.set_value(unrestricted_spawn)
-	var cf := ConfigFile.new()
-	cf.set_value("sandbox", "unrestricted_spawn", unrestricted_spawn)
-	cf.save(CFG)
-
-func value_for_copy(value: Variant, original: Node, copy: Node) -> Variant:
-	if value is Node:
-		if value == original:
-			return copy
-		if original.is_ancestor_of(value):
-			return copy.get_node_or_null(original.get_path_to(value))
-		return value
-	if value is Array:
-		var mapped: Array = value.duplicate()
-		for i in mapped.size():
-			mapped[i] = value_for_copy(mapped[i], original, copy)
-		return mapped
-	return value
 
 func set_online_blocked(blocked: bool) -> void:
 	var connected: bool = SignalBus.on_game_over.is_connected(ScoreManager.on_game_over)
